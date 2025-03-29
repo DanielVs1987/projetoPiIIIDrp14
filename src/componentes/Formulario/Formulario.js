@@ -75,7 +75,7 @@ const Formulario = () => {
           <Botao onClick={() => window.location.reload()}>Calcular</Botao>
         </div>
 
-        <h2>Seu Lucro foi de: {lucro !== null ? `R$ ${lucro.toFixed(2)}` : "Aguardando cálculo"}</h2>
+        <h2>Seu Lucro foi: {lucro !== null ? `R$ ${lucro.toFixed(2)}` : "Aguardando cálculo"}</h2>
         {erro && <p style={{ color: "red" }}>{erro}</p>}
       </form>
     </section>
