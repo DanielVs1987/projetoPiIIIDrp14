@@ -15,5 +15,5 @@
 
 .disposicao-botoes {
     display: flex;
-    justify-content: space-around;
+    justify-content: start;
 }
