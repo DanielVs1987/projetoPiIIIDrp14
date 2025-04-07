@@ -36,7 +36,7 @@ const Formulario = (props) => {
       valorDistancia,
       valorConsumo,
       valorPreco,
-      lucro:  lucroCalculado.toString().replace(".", ","),
+      lucro:  lucroCalculado.toFixed(2).toString().replace(".", ","),
     });
 
   };
