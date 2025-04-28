@@ -1,41 +1,71 @@
-import { useState } from 'react';
-import Banner from './componentes/Banner/Banner';
-import Formulario from './componentes/Formulario/Formulario';
-import Corrida from './componentes/Corrida/Corrida';
+import { useState } from "react";
+import Login from "./componentes/Login/Login";
+import Formulario from "./componentes/Formulario/Formulario";
+import PainelCorridas from "./componentes/PainelCorridas/PainelCorridas";
+import PainelMensal from "./componentes/PainelMensal/PainelMensal";
+import "./index.css";
 
 function App() {
+  const [token, setToken] = useState(null);
+  const [mostrarFormulario, setMostrarFormulario] = useState(false);
+  const [mostrarPainelDia, setMostrarPainelDia] = useState(false);
+  const [mostrarPainelMes, setMostrarPainelMes] = useState(false);
 
-  const [corridas, setCorridas] = useState([])
+  const handleLogin = (token) => {
+    setToken(token);
+  };
 
-  const novaCorrida = (corrida) => {
-    console.log(corrida)
-    console.log(corridas)
-    setCorridas([...corridas, corrida])
-    console.log(corridas.map(c => c.lucro))
+  const handleLogout = () => {
+    setToken(null);
+    setMostrarFormulario(false);
+    setMostrarPainelDia(false);
+    setMostrarPainelMes(false);
+  };
 
-
+  if (!token) {
+    return <Login onLogin={handleLogin} />;
   }
+
   return (
-    <div className="App">
-      <Banner></Banner>
-      <Formulario novaCorrida={corrida => novaCorrida(corrida)}></Formulario>
-      <section className='corridas'>
-        <h2>Corridas Realizadas</h2>
-        {corridas.map((corrida, index) => (
-          <Corrida
-            key={corrida.id}
-            id={index}
-            data={corrida.data}
-            valorCorrida={corrida.valorCorrida}
-            valorDistancia={corrida.valorDistancia}
-            valorConsumo={corrida.valorConsumo}
-            valorPreco={corrida.valorPreco}
-            lucro={corrida.lucro}
-          />
-        ))}
-      </section>
+    <div className="app-background">
+      <div className="app-container">
+        <nav className="navbar">
+          <button onClick={() => {
+            setMostrarFormulario(true);
+            setMostrarPainelDia(false);
+            setMostrarPainelMes(false);
+          }}>
+            Nova Corrida
+          </button>
+          <button onClick={() => {
+            setMostrarFormulario(false);
+            setMostrarPainelDia(true);
+            setMostrarPainelMes(false);
+          }}>
+            Corridas do Dia
+          </button>
+          <button onClick={() => {
+            setMostrarFormulario(false);
+            setMostrarPainelDia(false);
+            setMostrarPainelMes(true);
+          }}>
+            Corridas do Mês
+          </button>
+          <button onClick={handleLogout}>Sair</button>
+        </nav>
+
+        <div className="content">
+          {mostrarFormulario && <Formulario token={token} />}
+          {mostrarPainelDia && <PainelCorridas token={token} />}
+          {mostrarPainelMes && <PainelMensal token={token} />}
+        </div>
+      </div>
     </div>
   );
 }
 
 export default App;
+
+
+
+

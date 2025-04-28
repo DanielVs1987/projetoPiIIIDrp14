@@ -3,12 +3,14 @@ import CampoTexto from "../CampoTexto/CampoTexto";
 import "../Formulario/Formulario.css";
 import { useState } from "react";
 
-const Formulario = (props) => {
+const Formulario = ({ token }) => {
   const [valorCorrida, setValorCorrida] = useState("");
   const [valorDistancia, setValorDistancia] = useState("");
   const [valorConsumo, setValorConsumo] = useState("");
   const [valorPreco, setValorPreco] = useState("");
-
+  const [erro, setErro] = useState(null);
+  const [sucesso, setSucesso] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const calculaLucro = () => {
     const valor = parseFloat(valorCorrida.replace(",", "."));
@@ -24,27 +26,54 @@ const Formulario = (props) => {
     return valor - custoCombustivel;
   };
 
-  const aoSalvar = (evento) => {
+  const aoSalvar = async (evento) => {
     evento.preventDefault();
+    setLoading(true);
+    setErro(null);
+    setSucesso(false);
 
-    const lucroCalculado = calculaLucro();
+    try {
+      const lucroCalculado = calculaLucro();
 
-    props.novaCorrida({
-      id: Math.random().toString(36).substring(2, 9),
-      data: new Date().toLocaleDateString(),
-      valorCorrida,
-      valorDistancia,
-      valorConsumo,
-      valorPreco,
-      lucro:  lucroCalculado.toFixed(2).toString().replace(".", ","),
-    });
+      const resposta = await fetch("http://localhost:3001/api/corridas", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+        body: JSON.stringify({
+          valorCorrida,
+          valorDistancia,
+          valorConsumo,
+          valorPreco,
+          lucro: lucroCalculado,
+        }),
+      });
 
+      if (!resposta.ok) {
+        const { message } = await resposta.json();
+        throw new Error(message);
+      }
+
+      setSucesso(true);
+
+      setValorCorrida("");
+      setValorDistancia("");
+      setValorConsumo("");
+      setValorPreco("");
+    } catch (err) {
+      setErro(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <section className="formulario">
       <form onSubmit={aoSalvar}>
         <h2>Informações Da Sua Corrida</h2>
+        {erro && <p className="error">{erro}</p>}
+        {sucesso && <p className="success">Corrida salva com sucesso!</p>}
         <CampoTexto
           obrigatorio={true}
           placeholder="Valor em Reais (R$)"
@@ -75,7 +104,9 @@ const Formulario = (props) => {
         />
 
         <div className="disposicao-botoes">
-          <Botao tipo="submit">Calcular</Botao>
+          <Botao tipo="submit" disabled={loading}>
+            {loading ? "Salvando..." : "Salvar"}
+          </Botao>
         </div>
       </form>
     </section>
@@ -83,3 +114,4 @@ const Formulario = (props) => {
 };
 
 export default Formulario;
+

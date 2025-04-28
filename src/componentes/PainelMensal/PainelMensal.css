@@ -1,0 +1,84 @@
+.painel-mensal {
+    width: 90%;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.1);
+    opacity: .95;
+}
+
+.painel-mensal h2 {
+    font-size: 1.75rem;
+    color: #6278f7;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.painel-mensal h3 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-top: 2rem;
+    text-align: center;
+    padding: 1rem;
+    background-color: #f2f2f2;
+    border-radius: 8px;
+}
+
+.filtros {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    justify-content: center;
+}
+
+.filtros select {
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.painel-mensal ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.painel-mensal li {
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    font-size: 1.1rem;
+    color: #444;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.painel-mensal li:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+
+.resumo-mensal {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: #e6f7ff;
+    border-radius: 8px;
+    border-left: 5px solid #6278f7;
+}
+
+.resumo-mensal p {
+    margin: 0.5rem 0;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.resumo-mensal strong {
+    color: #6278f7;
+}
